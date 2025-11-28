@@ -2,7 +2,7 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 
 import AdminLayout from "../layouts/AdminLayout.tsx";
 import DealerLayout from "../layouts/DealerLayout.tsx";
-// import ProtectedRoute from "../components/ProtectedRoute.tsx";
+import ProtectedRoute from "../components/ProtectedRoute.tsx";
 
 import Login from "../pages/Login.tsx";
 import Register from "../pages/Register.tsx";
@@ -32,13 +32,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/dealer",
-    // Tạm thời bỏ ProtectedRoute để có thể truy cập
-    // element: (
-    //   <ProtectedRoute>
-    //     <DealerLayout />
-    //   </ProtectedRoute>
-    // ),
-    element: <DealerLayout />,
+    element: (
+      <ProtectedRoute>
+        <DealerLayout />
+      </ProtectedRoute>
+    ),
     children: [
       { path: "upload", element: <UploadCar /> },
       { path: "my-cars", element: <MyCars /> },
@@ -46,13 +44,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/admin",
-    // Tạm thời bỏ ProtectedRoute để có thể truy cập
-    // element: (
-    //   <ProtectedRoute>
-    //     <AdminLayout />
-    //   </ProtectedRoute>
-    // ),
-    element: <AdminLayout />,
+    element: (
+      <ProtectedRoute>
+        <AdminLayout />
+      </ProtectedRoute>
+    ),
     children: [
       { index: true, element: <Dashboard /> },
       { path: "cars", element: <Cars /> },

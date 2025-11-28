@@ -9,11 +9,11 @@ export default function Login() {
   const { login } = useAuth();
   const [loading, setLoading] = useState(false);
 
-  const onFinish = async (values: { username: string; password: string }) => {
+  const onFinish = async (values: { email: string; password: string }) => {
     setLoading(true);
     try {
       // Call API - server will set HTTP-Only cookie in response
-      await login(values.username, values.password);
+      await login(values.email, values.password);
       message.success("Đăng nhập thành công!");
       navigate("/admin");
     } catch (error) {
@@ -67,15 +67,18 @@ export default function Login() {
           requiredMark={false}
         >
           <Form.Item
-            name="username"
+            name="email"
+            label="Email"
             rules={[
               { required: true, message: "Vui lòng nhập email của bạn" },
+              { type: "email", message: "Email không hợp lệ" },
             ]}
             style={{ marginBottom: "20px" }}
           >
             <Input
-              placeholder="Email"
+              placeholder="Nhập email"
               size="large"
+              type="email"
               style={{
                 height: "40px",
                 fontSize: "14px",

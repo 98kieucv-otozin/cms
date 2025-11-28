@@ -1,10 +1,10 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { api } from "../services/api";
+import { authApi } from "../services/api/index";
 
 interface AuthContextType {
   isAuthenticated: boolean;
   username: string | null;
-  login: (username: string, password: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   loading: boolean;
 }
@@ -12,33 +12,39 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  // Tạm thời cho phép truy cập không cần check auth
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
-  const [username, setUsername] = useState<string | null>("test");
-  const [loading, setLoading] = useState<boolean>(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [username, setUsername] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-  
+    let isMounted = true;
     const checkAuth = async () => {
       try {
-        const response = await api.checkAuth();
+        const response = await authApi.checkAuth();
+        if (!isMounted) return;
         setIsAuthenticated(response.isAuthenticated);
-        setUsername(response.username || null);
+        setUsername(response.user?.username || null);
       } catch (error) {
+        if (!isMounted) return;
         setIsAuthenticated(false);
         setUsername(null);
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     };
 
     checkAuth();
-    setLoading(false);
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
-  const login = async (username: string, password: string) => {
+  const login = async (email: string, password: string) => {
     try {
-      const response = await api.login(username, password);
+      const response = await authApi.login({ email, password });
       if (response.success && response.user) {
         // Server sets HTTP-Only cookie in response header
         // Cookie is automatically stored by browser, we can't access it from JS
@@ -56,7 +62,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logout = async () => {
     try {
-      await api.logout();
+      await authApi.logout();
       // Server deletes HTTP-Only cookie
       setIsAuthenticated(false);
       setUsername(null);
