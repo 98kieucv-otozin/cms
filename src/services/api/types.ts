@@ -153,3 +153,32 @@ export interface PaginatedResponse<T> {
   totalPages: number;
 }
 
+// ==================== Search Types ====================
+export type SearchEntityType = "cars" | "users" | "all";
+
+export interface SearchParams {
+  query: string;
+  type?: SearchEntityType;
+  page?: number;
+  limit?: number;
+  filters?: {
+    // Car filters
+    status?: string;
+    minPrice?: number;
+    maxPrice?: number;
+    brand?: string;
+    // User filters
+    role?: string;
+  };
+}
+
+export interface SearchResult {
+  data: {
+    data: {
+      hits: any[];
+    };
+  };
+  page: number;
+  found: number;
+}
+
