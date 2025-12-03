@@ -174,10 +174,9 @@ export interface SearchParams {
 
 export interface SearchResult {
   data: {
-    data: {
-      hits: any[];
-    };
+    hits: any[];
   };
+
   page: number;
   found: number;
 }

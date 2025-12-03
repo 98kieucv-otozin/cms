@@ -13,12 +13,12 @@ export const searchApi = {
    */
   async search(params: SearchParams): Promise<SearchResult> {
     const response = await apiClient.get<SearchResult>("/search", { params });
-    return response.data || { found: 0, page: 1, data: { data: { hits: [] } } };
+    return response.data || { found: 0, page: 1, data: { hits: [] } };
   },
 
   async searchCarModels(params: SearchParams): Promise<SearchResult> {
     const response = await apiClient.get<SearchResult>("/search/car-models", { params });
-    return response.data || { found: 0, page: 1, data: { data: { hits: [] } } };
+    return response.data || { found: 0, page: 1, data: { hits: [] } };
   },
 
   /**
@@ -32,7 +32,7 @@ export const searchApi = {
         ...params,
       },
     });
-    return response.data || { found: 0, page: 1, data: { data: { hits: [] } } };
+    return response.data || { found: 0, page: 1, data: { hits: [] } };
   },
 
   /**
@@ -46,7 +46,7 @@ export const searchApi = {
         ...params,
       },
     });
-    return response.data || { found: 0, page: 1, data: { data: { hits: [] } } };
+    return response.data || { found: 0, page: 1, data: { hits: [] } };
   },
 };
 

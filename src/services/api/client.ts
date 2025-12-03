@@ -5,12 +5,12 @@
 
 const getApiBaseURL = (): string => {
   const envURL = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
-  
+
   // Ensure URL has protocol
   if (envURL.startsWith("http://") || envURL.startsWith("https://")) {
     return envURL;
   }
-  
+
   // If no protocol, assume http://
   return `http://${envURL}`;
 };
@@ -42,16 +42,16 @@ class ApiClient {
   private buildURL(endpoint: string, params?: Record<string, string | number | boolean | undefined | null> | { [key: string]: any }): string {
     // Normalize endpoint - ensure it starts with /
     const normalizedEndpoint = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
-    
+
     // Normalize baseURL - remove trailing slash if exists
     const normalizedBaseURL = this.baseURL.endsWith("/") ? this.baseURL.slice(0, -1) : this.baseURL;
-    
+
     // Combine baseURL and endpoint
     const fullURL = `${normalizedBaseURL}${normalizedEndpoint}`;
-    
+
     // Create URL object
     const url = new URL(fullURL);
-    
+
     // Add query parameters
     if (params) {
       Object.entries(params).forEach(([key, value]) => {
@@ -69,7 +69,7 @@ class ApiClient {
    */
   private async handleResponse<T>(response: Response): Promise<ApiResponse<T>> {
     const contentType = response.headers.get("content-type");
-    
+
     if (!contentType?.includes("application/json")) {
       if (response.ok) {
         return { success: true };
@@ -83,9 +83,12 @@ class ApiClient {
       throw new Error(data.message || data.error || `Request failed with status ${response.status}`);
     }
 
+    // Tự động unwrap data.data nếu có (API response thường wrap trong data.data)
+    const unwrappedData = data?.data !== undefined ? data.data : data;
+
     return {
       success: true,
-      data,
+      data: unwrappedData,
       message: data.message,
     };
   }
@@ -95,7 +98,7 @@ class ApiClient {
    */
   async get<T = any>(endpoint: string, options?: RequestOptions): Promise<ApiResponse<T>> {
     const url = this.buildURL(endpoint, options?.params);
-    
+
     const response = await fetch(url, {
       method: "GET",
       credentials: "include",
@@ -114,7 +117,7 @@ class ApiClient {
    */
   async post<T = any>(endpoint: string, body?: any, options?: RequestOptions): Promise<ApiResponse<T>> {
     const url = this.buildURL(endpoint, options?.params);
-    
+
     const response = await fetch(url, {
       method: "POST",
       credentials: "include",
@@ -134,7 +137,7 @@ class ApiClient {
    */
   async put<T = any>(endpoint: string, body?: any, options?: RequestOptions): Promise<ApiResponse<T>> {
     const url = this.buildURL(endpoint, options?.params);
-    
+
     const response = await fetch(url, {
       method: "PUT",
       credentials: "include",
@@ -154,7 +157,7 @@ class ApiClient {
    */
   async patch<T = any>(endpoint: string, body?: any, options?: RequestOptions): Promise<ApiResponse<T>> {
     const url = this.buildURL(endpoint, options?.params);
-    
+
     const response = await fetch(url, {
       method: "PATCH",
       credentials: "include",
@@ -174,7 +177,7 @@ class ApiClient {
    */
   async delete<T = any>(endpoint: string, options?: RequestOptions): Promise<ApiResponse<T>> {
     const url = this.buildURL(endpoint, options?.params);
-    
+
     const response = await fetch(url, {
       method: "DELETE",
       credentials: "include",
@@ -197,7 +200,7 @@ class ApiClient {
     options?: RequestOptions
   ): Promise<ApiResponse<T>> {
     const url = this.buildURL(endpoint, options?.params);
-    
+
     const response = await fetch(url, {
       method: "POST",
       credentials: "include",

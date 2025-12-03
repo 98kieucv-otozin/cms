@@ -80,7 +80,7 @@ export const carsApi = {
    */
   async updateCar(data: UpdateCarRequest): Promise<Car> {
     const { id, ...updateData } = data;
-    
+
     // Check if images are File objects
     const hasFileImages = updateData.images?.some((img) => img instanceof File);
 
@@ -143,6 +143,20 @@ export const carsApi = {
     const response = await apiClient.patch<Car>(`/cars/${id}/status`, { status });
     if (!response.data) {
       throw new Error("Failed to update car status");
+    }
+    return response.data;
+  },
+
+  /**
+   * Get car detail by model, year, and trim
+   */
+  async getCarDetailByModelYearAndTrim(params: {
+    model_year_id: string
+    trim_id: string
+  }): Promise<any> {
+    const response = await apiClient.get<any>("/car-models/detail/by-model-year-and-trim", { params });
+    if (!response.data) {
+      throw new Error("Car detail not found");
     }
     return response.data;
   },

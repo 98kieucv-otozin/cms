@@ -49,4 +49,22 @@
   font-weight: 700 !important;
 }
 
+/* Collapse specs style - blue color for label and icon */
+.upload-car-specs-collapse .ant-collapse-header {
+  color: #1890ff !important;
+  padding: 8px 16px !important;
+}
+
+.upload-car-specs-collapse .ant-collapse-arrow {
+  color: #1890ff !important;
+}
+
+.upload-car-specs-collapse .ant-collapse-arrow svg {
+  color: #1890ff !important;
+}
+
+.upload-car-specs-collapse .ant-collapse-content-box {
+  padding: 8px 16px !important;
+}
+
 

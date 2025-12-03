@@ -37,10 +37,11 @@ export const authApi = {
   async checkAuth(): Promise<AuthStatusResponse> {
     try {
       const response = await apiClient.get<any>("/auth/status");
-      if(response.data?.data?.isAuthenticated) {
-        return { isAuthenticated: true, user: response.data?.data?.user };
+      console.log("response", response);
+      if (response.data?.isAuthenticated) {
+        return { isAuthenticated: true, user: response.data?.user };
       }
-      return  { isAuthenticated: false };
+      return { isAuthenticated: false };
     } catch (error) {
       return { isAuthenticated: false };
     }
