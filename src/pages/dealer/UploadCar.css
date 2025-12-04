@@ -27,6 +27,62 @@
   color: var(--primary-color, #62c7a9);
 }
 
+/* Upload image item with cover image feature */
+.upload-car-image-item {
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.upload-car-image-item:hover {
+  opacity: 0.9;
+}
+
+.upload-car-image-item.cover-image {
+  border: 3px solid #52c41a !important;
+  box-shadow: 0 0 0 2px rgba(82, 196, 26, 0.2) !important;
+}
+
+.cover-image-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: rgba(82, 196, 26, 0.9);
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.cover-image-hint {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  padding: 4px 8px;
+  font-size: 11px;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.upload-car-image-item:hover .cover-image-hint {
+  opacity: 1;
+}
+
+.upload-car-image-item.cover-image .cover-image-hint {
+  display: none;
+}
+
 /* Button save with lighter drap color */
 .upload-car-button-save {
   background: #c0c9d4 !important;
@@ -65,6 +121,113 @@
 
 .upload-car-specs-collapse .ant-collapse-content-box {
   padding: 8px 16px !important;
+}
+
+/* Radio styles - circular checkbox design with check icon */
+.upload-car-container .ant-radio-wrapper {
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.upload-car-container .ant-radio-wrapper:hover .ant-radio-inner {
+  border-color: #52c41a !important;
+}
+
+.upload-car-container .ant-radio-checked .ant-radio-inner {
+  background-color: #52c41a !important;
+  border-color: #52c41a !important;
+  box-shadow: 0 0 0 2px rgba(82, 196, 26, 0.2) !important;
+}
+
+.upload-car-container .custom-radio.ant-radio-checked .ant-radio-inner {
+  background-color: #52c41a !important;
+  border-color: #52c41a !important;
+  box-shadow: 0 0 0 2px rgba(82, 196, 26, 0.2) !important;
+}
+
+.upload-car-container .custom-radio.ant-radio-checked .ant-radio-inner::after {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  width: 0 !important;
+  height: 0 !important;
+  content: none !important;
+}
+
+.upload-car-container .custom-radio .ant-radio-inner::after {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  width: 0 !important;
+  height: 0 !important;
+  content: none !important;
+}
+
+.upload-car-container .custom-radio .ant-radio-inner {
+  width: 22px !important;
+  height: 22px !important;
+  border-radius: 50% !important;
+  border: 2px solid #d9d9d9 !important;
+  transition: all 0.3s ease !important;
+  position: relative !important;
+  overflow: visible !important;
+}
+
+.upload-car-container .custom-radio .ant-radio-inner:hover {
+  border-color: #52c41a !important;
+}
+
+.upload-car-container .custom-radio .ant-radio-input:focus + .ant-radio-inner {
+  border-color: #52c41a !important;
+  box-shadow: 0 0 0 2px rgba(82, 196, 26, 0.2) !important;
+}
+
+/* Radio label and check icon positioning */
+.upload-car-container .custom-radio {
+  position: relative !important;
+}
+
+.upload-car-container .custom-radio .radio-label {
+  margin-left: 8px;
+}
+
+.upload-car-container .custom-radio .radio-check-icon {
+  position: absolute !important;
+  top: 50% !important;
+  left: 11px !important;
+  transform: translate(-50%, -50%) !important;
+  z-index: 10 !important;
+  pointer-events: none !important;
+}
+
+/* Color radio custom styling */
+.upload-car-container .color-radio {
+  margin: 0 !important;
+  line-height: 1 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  vertical-align: middle !important;
+  overflow: visible !important;
+  text-indent: -9999px !important;
+  font-size: 0 !important;
+}
+
+.upload-car-container .color-radio::before {
+  display: none !important;
+}
+
+.upload-car-container .color-radio .ant-radio-button {
+  display: none !important;
+}
+
+.upload-car-container .color-radio .anticon {
+  text-indent: 0 !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  z-index: 1 !important;
 }
 
 

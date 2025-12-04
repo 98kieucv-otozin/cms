@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef } from "react";
 import { Form, Input, Button, Upload, AutoComplete, InputNumber, DatePicker, Radio, Row, Col, Space, Collapse } from "antd";
-import { CheckOutlined } from "@ant-design/icons";
+import { CheckOutlined, StarFilled } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { PRIMARY_COLOR } from "../../constants/colors";
 import { UploadIcon, SearchIcon } from "../../components/icons/Icons";
@@ -10,9 +10,12 @@ import "./UploadCar.css";
 export default function UploadCar() {
   const [form] = Form.useForm();
   const selectedColor = Form.useWatch("color", form);
+  const selectedCondition = Form.useWatch("condition", form);
+  const selectedFuelType = Form.useWatch("fuelType", form);
   const [carSpecs, setCarSpecs] = useState<any>(null);
   const [searchOptions, setSearchOptions] = useState<{ value: string; label: string; car?: any }[]>([]);
   const [searching, setSearching] = useState(false);
+  const [coverImageIndex, setCoverImageIndex] = useState<number | null>(null);
   const searchTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleSearch = useCallback(async (value: string) => {
@@ -184,12 +187,70 @@ export default function UploadCar() {
         </Form.Item>
         <Form.Item label="Tình trạng xe" name="condition">
           <Radio.Group>
-            <Radio value="new">Mới</Radio>
-            <Radio value="like_new">Lướt</Radio>
-            <Radio value="zin">Zin</Radio>
-            <Radio value="used">Cũ</Radio>
+            <Space>
+              {[
+                { value: "new", label: "Mới" },
+                { value: "like_new", label: "Lướt" },
+                { value: "zin", label: "Zin" },
+                { value: "used", label: "Cũ" },
+              ].map((item) => {
+                const isSelected = selectedCondition === item.value;
+                return (
+                  <Radio key={item.value} value={item.value} className="custom-radio">
+                    <span className="radio-label">{item.label}</span>
+                    {isSelected && (
+                      <CheckOutlined
+                        className="radio-check-icon"
+                        style={{
+                          color: "#fff",
+                          fontSize: 12,
+                          position: "absolute",
+                          top: "50%",
+                          left: "50%",
+                          transform: "translate(-50%, -50%)",
+                          pointerEvents: "none",
+                        }}
+                      />
+                    )}
+                  </Radio>
+                );
+              })}
+            </Space>
           </Radio.Group>
         </Form.Item>
+        {carSpecs && carSpecs.data?.fuel !== "electric" && (
+          <Form.Item label="Máy" name="fuelType" initialValue="gasoline">
+            <Radio.Group>
+              <Space>
+                {[
+                  { value: "gasoline", label: "Xăng" },
+                  { value: "diesel", label: "Dầu" },
+                ].map((item) => {
+                  const isSelected = selectedFuelType === item.value;
+                  return (
+                    <Radio key={item.value} value={item.value} className="custom-radio">
+                      <span className="radio-label">{item.label}</span>
+                      {isSelected && (
+                        <CheckOutlined
+                          className="radio-check-icon"
+                          style={{
+                            color: "#fff",
+                            fontSize: 12,
+                            position: "absolute",
+                            top: "50%",
+                            left: "50%",
+                            transform: "translate(-50%, -50%)",
+                            pointerEvents: "none",
+                          }}
+                        />
+                      )}
+                    </Radio>
+                  );
+                })}
+              </Space>
+            </Radio.Group>
+          </Form.Item>
+        )}
         <Row gutter={16}>
           <Col span={12}>
             <Form.Item label="Năm sản xuất" name="year">
@@ -201,7 +262,7 @@ export default function UploadCar() {
             </Form.Item>
           </Col>
           <Col span={12}>
-            <Form.Item label="Số vạn km đã đi (Odo)" name="mileage">
+            <Form.Item label="Odo - số km đã đi (vạn)" name="mileage">
               <InputNumber
                 placeholder="Nhập số vạn"
                 style={{ width: "100%", borderRadius: 8 }}
@@ -240,6 +301,7 @@ export default function UploadCar() {
                   <Radio.Button
                     key={item.value}
                     value={item.value}
+                    className="color-radio"
                     style={{
                       width: 32,
                       height: 32,
@@ -260,7 +322,6 @@ export default function UploadCar() {
                       justifyContent: "center",
                     }}
                     title={item.value}
-                    disabled={false}
                   >
                     {isSelected && (
                       <CheckOutlined
@@ -268,6 +329,10 @@ export default function UploadCar() {
                           color: getCheckIconColor(),
                           fontSize: 16,
                           fontWeight: "bold",
+                          position: "absolute",
+                          top: "50%",
+                          left: "50%",
+                          transform: "translate(-50%, -50%)",
                         }}
                       />
                     )}
@@ -277,7 +342,7 @@ export default function UploadCar() {
             </Space>
           </Radio.Group>
         </Form.Item>
-        <Form.Item label="Mô tả tình trạng xe" name="conditionDescription">
+        <Form.Item label="Mô tả tình trạng xe, ưu đãi đặc biệt" name="conditionDescription">
           <Input.TextArea
             placeholder="Nhập mô tả tình trạng xe"
             rows={4}
@@ -303,7 +368,53 @@ export default function UploadCar() {
             return e?.fileList;
           }}
         >
-          <Upload multiple listType="picture-card" className="upload-car-upload">
+          <Upload
+            multiple
+            listType="picture-card"
+            className="upload-car-upload"
+            onChange={(info) => {
+              const fileList = info.fileList;
+              // Reset cover image index if the cover image was removed
+              if (coverImageIndex !== null && coverImageIndex >= fileList.length) {
+                setCoverImageIndex(null);
+              }
+              // Auto-select first image as cover if no cover is selected and there are images
+              if (coverImageIndex === null && fileList.length > 0) {
+                setCoverImageIndex(0);
+              }
+            }}
+            itemRender={(originNode, file, fileList) => {
+              const index = fileList.indexOf(file);
+              const isCover = coverImageIndex === index;
+              return (
+                <div
+                  className={`upload-car-image-item ${isCover ? "cover-image" : ""}`}
+                  onClick={(e) => {
+                    // Prevent triggering upload actions when clicking to set cover
+                    e.stopPropagation();
+                    if (coverImageIndex === index) {
+                      setCoverImageIndex(null);
+                    } else {
+                      setCoverImageIndex(index);
+                    }
+                  }}
+                >
+                  {originNode}
+                  {isCover && (
+                    <div className="cover-image-badge">
+                      <StarFilled style={{ color: "#52c41a", fontSize: 16 }} />
+                      <span>Ảnh bìa</span>
+                    </div>
+                  )}
+                  {!isCover && (
+                    <div className="cover-image-hint">
+                      <span>Click để chọn làm ảnh bìa</span>
+                    </div>
+                  )}
+                </div>
+              );
+            }}
+          >
             <div className="upload-car-upload-content">
               <UploadIcon width={20} height={20} />
               <span>Upload</span>
