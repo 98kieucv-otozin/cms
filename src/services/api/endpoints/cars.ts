@@ -16,7 +16,7 @@ export const carsApi = {
    */
   async getCars(params?: CarListParams): Promise<CarListResponse> {
     const response = await apiClient.get<CarListResponse>("/cars", { params });
-    return response.data || { cars: [], total: 0, page: 1, limit: 10 };
+    return response.data || { hits: [], found: 0, page: 1, per_page: 10 };
   },
 
   /**
@@ -133,7 +133,7 @@ export const carsApi = {
    */
   async getMyCars(params?: CarListParams): Promise<CarListResponse> {
     const response = await apiClient.get<CarListResponse>("/cars/my", { params });
-    return response.data || { cars: [], total: 0, page: 1, limit: 10 };
+    return response.data || { hits: [], found: 0, page: 1, per_page: 10 };
   },
 
   /**
@@ -159,6 +159,45 @@ export const carsApi = {
       throw new Error("Car detail not found");
     }
     return response.data;
+  },
+
+  /**
+   * Upload car with FormData (for file uploads)
+   */
+  async uploadCar(formData: FormData): Promise<Car> {
+    const response = await apiClient.upload<Car>("/cars/upload", formData);
+    if (!response.data) {
+      throw new Error("Failed to upload car");
+    }
+    return response.data;
+  },
+
+  async getPresignedUrl(body: { count: number, subfolder: string }): Promise<string[]> {
+    const response = await apiClient.post<{ uploadUrls: string[] }>("/upload/presigned-urls", body);
+    if (!response.data) {
+      throw new Error("get url failed");
+    }
+    return response.data.uploadUrls;
+  },
+
+  /**
+   * Create car for sale (Bán xe ngay)
+   */
+  async carForSale(data: CreateCarRequest): Promise<Car> {
+    const response = await apiClient.post<Car>("/car-for-sale", data);
+    console.log("response", response);
+    if (!response.data) {
+      throw new Error("Failed to create car for sale");
+    }
+    return response.data;
+  },
+
+  /**
+   * Search cars for sale
+   */
+  async searchCarForSale(params?: CarListParams): Promise<CarListResponse> {
+    const response = await apiClient.get<CarListResponse>("/car-for-sale/search", { params });
+    return response.data || { hits: [], found: 0, page: 1, per_page: 10 };
   },
 };
 

@@ -7,11 +7,11 @@ export interface IconProps {
   height?: number | string;
 }
 
-export const UploadIcon: React.FC<IconProps> = ({ 
-  className, 
-  style, 
-  width = 16, 
-  height = 16 
+export const UploadIcon: React.FC<IconProps> = ({
+  className,
+  style,
+  width = 16,
+  height = 16
 }) => {
   return (
     <svg
@@ -52,11 +52,11 @@ export const SearchIcon: React.FC<IconProps> = ({
   );
 };
 
-export const CarIcon: React.FC<IconProps> = ({ 
-  className, 
-  style, 
-  width = 16, 
-  height = 16 
+export const CarIcon: React.FC<IconProps> = ({
+  className,
+  style,
+  width = 16,
+  height = 16
 }) => {
   return (
     <svg
@@ -142,6 +142,48 @@ export const DashboardIcon: React.FC<IconProps> = ({
     >
       <path d="M256 32C114.62 32 0 146.63 0 288s114.62 256 256 256 256-114.62 256-256S397.38 32 256 32zm0 452c-108.09 0-196-87.91-196-196S147.91 92 256 92s196 87.91 196 196-87.91 196-196 196z" />
       <path d="M399.22 182.78a16 16 0 0 0-22.63 0l-90.51 90.51a48 48 0 1 0 22.63 22.63l90.51-90.51a16 16 0 0 0 0-22.63z" />
+    </svg>
+  );
+};
+
+export const CheckIcon: React.FC<IconProps> = ({
+  className,
+  style,
+  width = 16,
+  height = 16,
+}) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 448 512"
+      width={width}
+      height={height}
+      className={className}
+      style={style}
+      fill="currentColor"
+    >
+      <path fill="currentColor" d="M438 68.5c10.8 7.7 13.2 22.7 5.5 33.5l-264 368c-4.1 5.7-10.5 9.4-17.5 9.9S148 478 143 473L7 337c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0L157 419 404.5 74c7.7-10.8 22.7-13.2 33.5-5.5z" />
+    </svg>
+  );
+};
+
+export const XMarkIcon: React.FC<IconProps> = ({
+  className,
+  style,
+  width = 16,
+  height = 16,
+}) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 384 512"
+      width={width}
+      height={height}
+      className={className}
+      style={style}
+      fill="currentColor"
+    >
+      <path fill="currentColor" d="M7.5 105c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l151 151 151-151c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-151 151 151 151c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-151-151-151 151c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l151-151-151-151z"/>
     </svg>
   );
 };

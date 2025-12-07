@@ -3,14 +3,25 @@
   padding: 0px;
 }
 
+/* Required field indicator - red asterisk */
+.upload-car-container .ant-form-item-required::before {
+  content: "*" !important;
+  color: #ff4d4f !important;
+  margin-right: 4px;
+  font-size: 14px;
+}
+
 .upload-car-buttons {
   display: flex;
+  justify-content: center;
   gap: 12px;
   width: 100%;
+  margin-top: 30px;
 }
 
 .upload-car-button {
-  flex: 1;
+  max-width: 400px;
+  width: 100%;
 }
 
 .upload-car-upload .upload-car-upload-content {
@@ -27,60 +38,127 @@
   color: var(--primary-color, #62c7a9);
 }
 
-/* Upload image item with cover image feature */
-.upload-car-image-item {
-  position: relative;
-  cursor: pointer;
-  transition: all 0.3s ease;
+/* Move delete button below and outside image */
+.upload-car-upload .ant-upload-list-item {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
 }
 
-.upload-car-image-item:hover {
-  opacity: 0.9;
-}
-
-.upload-car-image-item.cover-image {
+/* Cover image styling - border xanh lá */
+.upload-car-upload .ant-upload-list-item.cover-image {
   border: 3px solid #52c41a !important;
-  box-shadow: 0 0 0 2px rgba(82, 196, 26, 0.2) !important;
+  border-radius: 8px !important;
 }
 
-.cover-image-badge {
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  background: rgba(82, 196, 26, 0.9);
-  color: #fff;
-  padding: 4px 8px;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 12px;
-  font-weight: 600;
-  z-index: 10;
-  pointer-events: none;
+.upload-car-upload .ant-upload-list-item.cover-image .ant-upload-list-item-thumbnail {
+  border-radius: 5px !important;
 }
 
-.cover-image-hint {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.6);
-  color: #fff;
-  padding: 4px 8px;
-  font-size: 11px;
-  text-align: center;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
+.upload-car-upload .ant-upload-list-item-thumbnail {
+  width: 100% !important;
+  margin-bottom: 8px !important;
 }
 
-.upload-car-image-item:hover .cover-image-hint {
-  opacity: 1;
+.upload-car-upload .ant-upload-list-item-actions {
+  position: static !important;
+  top: auto !important;
+  bottom: auto !important;
+  right: auto !important;
+  left: auto !important;
+  transform: none !important;
+  margin-top: 5px !important;
+  display: flex !important;
+  justify-content: center !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
 }
 
-.upload-car-image-item.cover-image .cover-image-hint {
-  display: none;
+/* Override Ant Design default - force actions to always be visible */
+.upload-car-container .upload-car-upload .ant-upload-list-item-actions {
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: flex !important;
+}
+
+/* Đảm bảo icon xóa luôn hiển thị, không cần hover */
+.upload-car-upload .ant-upload-list-item .ant-upload-list-item-actions,
+.upload-car-upload .ant-upload-list-item-actions {
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: flex !important;
+  pointer-events: auto !important;
+}
+
+.upload-car-upload .ant-upload-list-item:hover .ant-upload-list-item-actions,
+.upload-car-upload .ant-upload-list-item-actions {
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: flex !important;
+}
+
+/* Đảm bảo button delete luôn hiển thị */
+.upload-car-upload .ant-upload-list-item-actions button,
+.upload-car-container .upload-car-upload .ant-upload-list-item-actions button {
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: inline-flex !important;
+  pointer-events: auto !important;
+}
+
+/* Override Ant Design default - force button to always be visible */
+.upload-car-container .ant-upload-list-item-actions button[title="Remove file"] {
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: inline-flex !important;
+}
+
+/* Hide preview/view icon */
+.upload-car-upload .ant-upload-list-item-actions .anticon-eye {
+  display: none !important;
+}
+
+/* Replace delete icon with xmark */
+.upload-car-upload .ant-upload-list-item-actions .anticon-delete {
+  display: none !important;
+}
+
+.upload-car-upload .ant-upload-list-item-actions .anticon-delete::before {
+  display: none !important;
+}
+
+/* Custom xmark icon for delete button - red color */
+.upload-car-upload .ant-upload-list-item-actions button[title="Remove file"] {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 32px !important;
+  height: 20px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  position: relative !important;
+}
+
+.upload-car-upload .ant-upload-list-item-actions button[title="Remove file"]::after,
+.upload-car-upload .ant-upload-list-item-actions .anticon-delete::after {
+  content: "" !important;
+  display: block !important;
+  width: 16px !important;
+  height: 16px !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 384 512'%3E%3Cpath fill='%23ff4d4f' d='M7.5 105c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l151 151 151-151c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-151 151 151 151c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-151-151-151 151c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l151-151-151-151z'/%3E%3C/svg%3E") !important;
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  margin: 0 !important;
+}
+
+.upload-car-upload .ant-upload-list-item-actions button:hover::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 384 512'%3E%3Cpath fill='%23ff7875' d='M7.5 105c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l151 151 151-151c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-151 151 151 151c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-151-151-151 151c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l151-151-151-151z'/%3E%3C/svg%3E") !important;
 }
 
 /* Button save with lighter drap color */
@@ -107,20 +185,45 @@
 
 /* Collapse specs style - blue color for label and icon */
 .upload-car-specs-collapse .ant-collapse-header {
-  color: #1890ff !important;
-  padding: 8px 16px !important;
+  color: rgba(0, 0, 0, 0.85) !important;
+  padding: 0 !important;
+  align-items: center !important;
 }
 
 .upload-car-specs-collapse .ant-collapse-arrow {
-  color: #1890ff !important;
+  color: rgba(0, 0, 0, 0.85) !important;
+  left: auto !important;
+  right: auto !important;
+  padding: 0 !important;
+  margin-left: 8px !important;
+  margin-right: 0 !important;
+  position: relative !important;
 }
 
 .upload-car-specs-collapse .ant-collapse-arrow svg {
+  color: rgba(0, 0, 0, 0.85) !important;
+}
+
+/* Collapse "Xem thông số kỹ thuật" - icon màu xanh */
+.upload-car-specs-collapse-blue .ant-collapse-arrow {
+  color: #1890ff !important;
+}
+
+.upload-car-specs-collapse-blue .ant-collapse-arrow svg {
   color: #1890ff !important;
 }
 
 .upload-car-specs-collapse .ant-collapse-content-box {
   padding: 8px 16px !important;
+}
+
+/* Điều chỉnh để mũi tên Collapse màu xe nằm ngay sau text */
+.upload-car-container .ant-form-item:has(.upload-car-specs-collapse) .ant-form-item-label {
+  display: none !important;
+}
+
+.upload-car-container .ant-form-item:has(.upload-car-specs-collapse) .ant-form-item-control {
+  margin-left: 0 !important;
 }
 
 /* Radio styles - circular checkbox design with check icon */
@@ -177,7 +280,7 @@
   border-color: #52c41a !important;
 }
 
-.upload-car-container .custom-radio .ant-radio-input:focus + .ant-radio-inner {
+.upload-car-container .custom-radio .ant-radio-input:focus+.ant-radio-inner {
   border-color: #52c41a !important;
   box-shadow: 0 0 0 2px rgba(82, 196, 26, 0.2) !important;
 }
@@ -230,4 +333,16 @@
   z-index: 1 !important;
 }
 
+/* Đảm bảo trạng thái checked của Radio.Button được hiển thị */
+.upload-car-container .color-radio.ant-radio-button-checked {
+  border-color: #52c41a !important;
+  border-width: 3px !important;
+  border-style: solid !important;
+  transform: scale(1.15) !important;
+  box-shadow: 0 0 0 2px rgba(82, 196, 26, 0.3), 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+}
 
+/* Đảm bảo style inline không bị override */
+.upload-car-container .color-radio[style*="borderColor"] {
+  border-style: solid !important;
+}

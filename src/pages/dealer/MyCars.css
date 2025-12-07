@@ -1,0 +1,45 @@
+/* MyCars page styles - Mobile First */
+
+/* Mobile view - default */
+.mobile-cars-view {
+  display: block;
+}
+
+.desktop-cars-view {
+  display: none;
+}
+
+/* Tablet and up - show table */
+@media (min-width: 992px) {
+  .mobile-cars-view {
+    display: none;
+  }
+
+  .desktop-cars-view {
+    display: block;
+  }
+}
+
+/* Mobile card optimizations */
+@media (max-width: 991px) {
+  .mobile-cars-view .ant-card {
+    margin-bottom: 0;
+  }
+
+  .mobile-cars-view .ant-card-body {
+    padding: 12px;
+  }
+
+  .mobile-cars-view .ant-card-meta-title {
+    margin-bottom: 8px;
+  }
+
+  .mobile-cars-view .ant-card-actions {
+    padding: 8px 0;
+  }
+
+  .mobile-cars-view .ant-card-actions > li {
+    margin: 0;
+  }
+}
+

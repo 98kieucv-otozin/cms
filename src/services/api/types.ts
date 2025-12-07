@@ -62,6 +62,7 @@ export interface Car {
   name: string;
   price: number;
   images: string[];
+  thumbnail: string;
   description?: string;
   brand?: string;
   model?: string;
@@ -96,10 +97,10 @@ export interface UpdateCarRequest extends Partial<CreateCarRequest> {
 }
 
 export interface CarListResponse {
-  cars: Car[];
-  total: number;
+  hits: Car[];
+  found: number;
   page: number;
-  limit: number;
+  per_page: number;
 }
 
 export interface CarListParams {
